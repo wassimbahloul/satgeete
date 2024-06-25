@@ -25,8 +25,8 @@
           </div>
           <div class="form-group">
             <label for="videos">Vidéos:</label>
-            <input type="file" id="videos" (change)="onFilesSelected($event)" multiple formControlName="videos" class="form-control-file" accept=".mp4" required>
-            <p *ngIf="form.get('videos')?.invalid && form.get('videos')?.dirty" class="text-danger">Les fichiers doivent être au format MP4.</p>
+            <input type="file" id="videos" (change)="onFilesSelected($event)" multiple formControlName="videos" class="form-control-file">
+            <p *ngIf="invalidFileType" class="text-danger">Les fichiers doivent être au format MP4.</p>
             <div *ngIf="selectedFiles.length > 0">
               <p>Fichiers sélectionnés :</p>
               <ul>
@@ -37,7 +37,6 @@
               </ul>
             </div>
           </div>
-          
           <div class="form-group">
             <label for="videoUrl">Ajouter une vidéo via URL:</label>
             <input type="text" id="videoUrl" formControlName="videoUrl" class="form-control">
@@ -47,17 +46,24 @@
               <ul>
                 <li *ngFor="let url of videoUrls; let i = index">
                   {{ url }}
-                  <button type="button" class="btn btn-sm btn-danger" (click)="removeVideoUrl(i)"><i class="bi bi-file-earmark-excel-fill" >X</i><</button>
+                  <button type="button" class="btn btn-sm btn-danger" (click)="removeVideoUrl(i)"><i class="bi bi-file-earmark-excel-fill">X</i></button>
                 </li>
               </ul>
             </div>
           </div>
-          <button type="submit" class="btn btn-primary">Ajouter le Cours</button>
+    <!-- formcours.component.html -->
+<button type="submit" class="btn btn-primary" [disabled]="isLoading">
+  <span *ngIf="!isLoading">Ajouter le Cours</span>
+  <span *ngIf="isLoading">
+    <i class="fa fa-spinner fa-spin"></i> Chargement...
+  </span>
+</button>
+
         </form>
       </div>
     </div>
   </div>
-  
+ 
   <app-footer></app-footer>
 </div>
 

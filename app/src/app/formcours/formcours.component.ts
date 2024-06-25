@@ -1,3 +1,4 @@
+
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,7 +16,8 @@ export class FormcoursComponent {
   formationId!: string;
   selectedFiles: File[] = [];
   videoUrls: string[] = []; // Array to store video URLs
-
+  invalidFileType = false; // Flag to check invalid file types
+  isLoading = false;
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -44,27 +46,29 @@ export class FormcoursComponent {
     this.form = this.fb.group({
       nom: ['', Validators.required],
       explication: ['', Validators.required],
-      videos: [null, Validators.required],
+      videos: [null],
       videoUrl: [''],
       formationId: [this.formationId, Validators.required]
     });
   }
 
   onFilesSelected(event: any): void {
-  const files: FileList = event.target.files;
-  if (files) {
-    const newlySelectedFiles = Array.from(files) as File[];
-    for (const file of newlySelectedFiles) {
-      if (file.type === 'video/mp4') {
-        this.selectedFiles.push(file);
+    const files: FileList = event.target.files;
+    if (files) {
+      const newlySelectedFiles = Array.from(files) as File[];
+      const invalidFiles = newlySelectedFiles.some(file => file.type !== 'video/mp4');
+     
+      if (invalidFiles) {
+        this.invalidFileType = true;
+        return;
       } else {
-        console.warn(`Le fichier ${file.name} n'est pas de type MP4 et ne sera pas ajouté.`);
+        this.invalidFileType = false;
       }
-    }
-    this.form.get('videos')?.setValue(this.selectedFiles);
-  }
-}
 
+      this.selectedFiles.push(...newlySelectedFiles);
+      this.form.get('videos')?.setValue(this.selectedFiles);
+    }
+  }
 
   addVideoUrl(): void {
     const videoUrl = this.form.get('videoUrl')?.value;
@@ -84,7 +88,8 @@ export class FormcoursComponent {
   }
 
   onSubmit(): void {
-    if (this.form.valid) {
+    if (this.form.valid && (this.selectedFiles.length > 0 || this.videoUrls.length > 0)) {
+      this.isLoading = true; 
       const formData = new FormData();
       formData.append('formationId', this.form.get('formationId')?.value);
       formData.append('nom', this.form.get('nom')?.value);
@@ -114,15 +119,19 @@ export class FormcoursComponent {
         this.courseService.createCourse(formData).subscribe(
           () => {
             console.log('Course ajouté avec succès.');
-            this.router.navigate(['/formations', this.formationId]);
+            this.router.navigate(['/formation', this.formationId,'view']);
           },
           (error) => {
             console.error('Erreur lors de l\'ajout du cours :', error);
+            this.isLoading = false; 
           }
         );
       }
     } else {
-      console.error('Le formulaire n\'est pas valide.');
+      console.error('Le formulaire n\'est pas valide ou aucune vidéo n\'a été ajoutée.');
     }
   }
 }
+
+
+
