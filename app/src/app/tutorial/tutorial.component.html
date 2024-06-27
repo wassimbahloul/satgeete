@@ -1,39 +1,21 @@
 <!doctype html>
 <html lang="en">
-
   <head>
     <title>Tutor &mdash; Free Website Template by Colorlib</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-
   </head>
-
   <body>
-
-    
     <div class="site-wrap" id="home-section">
-
-      <div class="site-mobile-menu site-navbar-target">
-        <div class="site-mobile-menu-header">
-          <div class="site-mobile-menu-close mt-3">
-            <span class="icon-close2 js-menu-toggle"></span>
-          </div>
-        </div>
-        <div class="site-mobile-menu-body"></div>
-      </div>
-
-    <app-header></app-header>
-
-      
+      <app-header></app-header>
       <div class="site-section-cover overlay" style="background-image: url('assets/images/hero_bg.jpg');">
-        
         <div class="container">
           <div class="row align-items-center justify-content-center">
+            
             <div class="col-lg-10 text-center">
-              <h1>Learn <strong>React Native</strong></h1>
+              <h1>Learn <strong>{{titleform}}</strong></h1>
               <p>
-                <span class="mr-2 mb-2">1hr 24m</span> 
+                <span class="mr-2 mb-2">1hr 24m</span>
                 <span class="mr-2 mb-2">Advanced</span>
                 <span class="mr-2 mb-2">Jun 18, 2020</span>
               </p>
@@ -41,33 +23,32 @@
           </div>
         </div>
       </div>
-
-      
-      
-
-      
-      
       <div class="site-section">
         <div class="container">
           <div class="row mb-5">
             <div class="col-lg-12">
               <div class="videoWrapper">
-  <!-- Copy & Pasted from YouTube -->
-  <iframe width="560" height="349" src="http://www.youtube.com/embed/n_dZNLr2cME?rel=0&hd=1" frameborder="0" allowfullscreen></iframe>
-</div>
+                <iframe width="560" height="349" src="http://www.youtube.com/embed/n_dZNLr2cME?rel=0&hd=1" frameborder="0" allowfullscreen></iframe>
+              </div>
             </div>
           </div>
+          <div class="col-lg-6 mb-4 mb-lg-0">
+            <form class="d-flex search-form" (ngSubmit)="search1()">
+              <input type="search" class="form-control mr-2" placeholder="Search subjects" [(ngModel)]="searchTerm1" name="searchTerm">
+              <button type="submit" class="btn btn-primary px-4">Search</button>
+            </form>
+          </div>
           
-
-          <div *ngIf="courses.length > 0">
+          <div *ngIf="courses && courses.length > 0">
             <ul class="list-unstyled tutorial-section-list">
-              <li *ngFor="let course of courses">
+              <li *ngFor="let course of filteredcourse">
                 <h3>{{ course.nom }}</h3>
                 <p>{{ course.explication }}</p>
                 <button class="btn btn-danger" (click)="deleteCourse(course._id)">Supprimer</button>
-
-                <a class="play" (click)="showVideos(course)">Play</a>
-                
+          
+                <button class="btn btn-primary" *ngIf="!course.showVideos" (click)="showVideos(course)">Play</button>
+                <button class="btn btn-secondary" *ngIf="course.showVideos" (click)="hideVideos(course)">Hide Videos</button>
+          
                 <div *ngIf="course.showVideos">
                   <ul class="list-unstyled">
                     <li *ngFor="let video of course.videos">
@@ -87,31 +68,12 @@
               </li>
             </ul>
           </div>
-
           
-
-
           
-            <div class="col-md-4">
-              <div class="box-side mb-3">
-                <a href="#"><img src="assets/images/img_1_horizontal.jpg" alt="Image" class="img-fluid"></a>
-                <h3><a href="#">Learning React Native</a></h3>
-                <p class="mb-0 text-muted">
-                  <span class="mr-2 mb-2">1hr 24m</span> 
-                  <span class="mr-2 mb-2">Advanced</span> 
-                  <span class="mr-2 mb-2">Jun 19, 2020</span> 
-                </p>
-              </div>  
-              
-            </div>
-          </div>
         </div>
       </div>
-              
-  
       <div class="site-section bg-light">
         <div class="container">
-          
           <div class="row">
             <div class="col-12">
               <div class="heading mb-4">
@@ -119,202 +81,98 @@
                 <h2>Related Tutorials</h2>
               </div>
             </div>
-            <div class="col-lg-8">
-              
-
-
-              <div class="d-flex tutorial-item mb-4">
-                <div class="img-wrap">
-                  <a href="#"><img src="assets/images/img_1.jpg" alt="Image" class="img-fluid"></a>
+            
+            <!-- Boucle sur les formations filtrées -->
+            <div class="col-lg-8" *ngFor="let formation of filteredFormations">
+              <!-- Exclure la formation actuelle en comparant avec formationId -->
+              <div class="formation-card" *ngIf="formation._id !== formationId">
+                <img [src]="formation.image" alt="{{ formation.title }}" width="200">
+                <div class="formation-header">
+                  <h2>{{ formation.title }}</h2>
+                  <p class="category">{{ formation.category }}</p>
                 </div>
-                <div>
-                  <h3><a href="#">Learning React Native</a></h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam tempore, saepe numquam. Doloremque culpa tenetur facere quisquam, animi illum possimus!</p>
-                  
-                  <p class="mb-0">
-                    <span class="brand-react h5"></span>
-                    <span class="brand-javascript h5"></span>
-                  </p>
-                  <p class="meta">
-                    <span class="mr-2 mb-2">1hr 24m</span>
-                    <span class="mr-2 mb-2">Advanced</span>
-                    <span class="mr-2 mb-2">Jun 18, 2020</span>
-                  </p>
-                  
-                  <p><a href="#" class="btn btn-primary custom-btn">Enroll</a></p>
+                <p class="description">{{ formation.description }}</p>
+                <div class="formation-details">
+                  <p>Duration: {{ formation.duration }}</p>
+                  <p>Level: {{ formation.level }}</p>
+                  <p>Date: {{ formation.date | date }}</p>
                 </div>
               </div>
-
-              <div class="d-flex tutorial-item mb-4">
-                <div class="img-wrap">
-                  <a href="#"><img src="assets/images/img_2.jpg" alt="Image" class="img-fluid"></a>
-                </div>
-                <div>
-                  <h3><a href="#">Learning Angular 101</a></h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam tempore, saepe numquam. Doloremque culpa tenetur facere quisquam, animi illum possimus!</p>
-
-                  <p class="mb-0">
-                    <span class="brand-angular h5"></span>
-                    <span class="brand-javascript h5"></span>
-                  </p>
-                  <p class="meta">
-                    <span class="mr-2 mb-2">1hr 24m</span>
-                    <span class="mr-2 mb-2">Advanced</span>
-                    <span class="mr-2 mb-2">Jun 18, 2020</span>
-                  </p>
-                  
-                  <p><a href="#" class="btn btn-primary custom-btn">Enroll</a></p>
-                </div>
-              </div>
-
-              <div class="d-flex tutorial-item mb-4">
-                <div class="img-wrap">
-                  <a href="#"><img src="assets/images/img_3.jpg" alt="Image" class="img-fluid"></a>
-                </div>
-                <div>
-                  <h3><a href="#">Learning Photoshop</a></h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam tempore, saepe numquam. Doloremque culpa tenetur facere quisquam, animi illum possimus!</p>
-                  <p class="mb-0">
-                    <span class="brand-adobephotoshop h5"></span>
-                  </p>
-                  <p class="meta">
-                    <span class="mr-2 mb-2">1hr 24m</span>
-                    <span class="mr-2 mb-2">Advanced</span>
-                    <span class="mr-2 mb-2">Jun 18, 2020</span>
-                  </p>
-                  <p><a href="#" class="btn btn-primary custom-btn">Enroll</a></p>
-                </div>
-              </div>
-
-              <div class="d-flex tutorial-item mb-4">
-                <div class="img-wrap">
-                  <a href="#"><img src="assets/images/img_4.jpg" alt="Image" class="img-fluid"></a>
-                </div>
-                <div>
-                  <h3><a href="#">Advance Illustrator</a></h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam tempore, saepe numquam. Doloremque culpa tenetur facere quisquam, animi illum possimus!</p>
-                  <p class="mb-0">
-                    <span class="brand-adobeillustrator h5"></span>
-                  </p>
-                  <p class="meta">
-                    <span class="mr-2 mb-2">1hr 24m</span>
-                    <span class="mr-2 mb-2">Advanced</span>
-                    <span class="mr-2 mb-2">Jun 18, 2020</span>
-                  </p>
-                  <p><a href="#" class="btn btn-primary custom-btn">Enroll</a></p>
-                </div>
-              </div>
-
-
-              <div class="custom-pagination">
-                <ul class="list-unstyled">
-                  <li><a href="#"><span>1</span></a></li>
-                  <li><span>2</span></li>
-                  <li><a href="#"><span>3</span></a></li>
-                  <li><a href="#"><span>4</span></a></li>
-                  <li><a href="#"><span>5</span></a></li>
-                </ul>
-              </div>
-            </div>
-
-
-            <div class="col-lg-4">
-              <div class="box-side mb-3">
-                <a href="#"><img src="assets/images/img_1_horizontal.jpg" alt="Image" class="img-fluid"></a>
-                <h3><a href="#">Learning React Native</a></h3>
-              </div>  
-              <div class="box-side mb-3">
-                <a href="#"><img src="assets/images/img_2_horizontal.jpg" alt="Image" class="img-fluid"></a>
-                <h3><a href="#">Learning React Native</a></h3>
-              </div>  
-              <div class="box-side">
-                <a href="#"><img src="assets/images/img_3_horizontal.jpg" alt="Image" class="img-fluid"></a>
-                <h3><a href="#">Learning React Native</a></h3>
-              </div>  
             </div>
           </div>
         </div>
       </div>
       
-      
-      
-      
-      <footer class="site-footer">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-3">
-              <h2 class="footer-heading mb-4">About Us</h2>
-              <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. </p>
-              <ul class="list-unstyled social">
-                <li><a href="#"><span class="icon-facebook"></span></a></li>
-                <li><a href="#"><span class="icon-instagram"></span></a></li>
-                <li><a href="#"><span class="icon-twitter"></span></a></li>
-                <li><a href="#"><span class="icon-linkedin"></span></a></li>
-              </ul>
-            </div>
-            <div class="col-lg-8 ml-auto">
-              <div class="row">
-                <div class="col-lg-3">
-                  <h2 class="footer-heading mb-4">Quick Links</h2>
-                  <ul class="list-unstyled">
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Testimonials</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Privacy</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                  </ul>
-                </div>
-                <div class="col-lg-3">
-                  <h2 class="footer-heading mb-4">Resources</h2>
-                  <ul class="list-unstyled">
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Testimonials</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Privacy</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                  </ul>
-                </div>
-                <div class="col-lg-3">
-                  <h2 class="footer-heading mb-4">Support</h2>
-                  <ul class="list-unstyled">
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Testimonials</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Privacy</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                  </ul>
-                </div>
-                <div class="col-lg-3">
-                  <h2 class="footer-heading mb-4">Company</h2>
-                  <ul class="list-unstyled">
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Testimonials</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Privacy</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row pt-5 mt-5 text-center">
-            <div class="col-md-12">
-              <div class="border-top pt-5">
-                <p>
-              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-              Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This Website is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a  target="_blank" >ING WASSIM BAHLOUL ^^ HENI KHEMAKHEM</a>
-              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-              </p>
-              </div>
-            </div>
-
-          </div>
-
-          
-        </div>
-      </footer>
-
-
+      <app-footer></app-footer>
+    </div>
   </body>
+  <style>/* Styles pour le bouton View */
+   /* Variables globales */
+   .formation-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 16px;
+    padding: 20px;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .formation-card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+  
+  .formation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .formation-header h2 {
+    font-size: 1.5em;
+    color: #2c3e50;
+    margin: 0;
+  }
+  
+  .formation-header .category {
+    font-size: 0.9em;
+    color: #95a5a6;
+    margin: 0;
+  }
+  
+  .description {
+    font-size: 1em;
+    color: #7f8c8d;
+    margin: 10px 0;
+  }
+  
+  .formation-details {
+    font-size: 0.9em;
+    color: #bdc3c7;
+    margin: 10px 0;
+  }
+  
+  .formation-details p {
+    margin: 5px 0;
+  }
+  
+  .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1em;
+    transition: background 0.3s ease;
+  }
+  
+  .btn-primary {
+    background: #007bff;
+    color: white;
+  }
+  
+  .btn-primary:hover {
+    background: #0056b3;
+  }
 
+    </style>
 </html>
+  
