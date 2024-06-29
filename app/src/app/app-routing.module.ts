@@ -5,6 +5,7 @@ import { TutorialComponent } from './tutorial/tutorial.component';
 import { AjoutformationComponent } from './ajoutformation/ajoutformation.component';
 import { LoginComponent } from './login/login.component';
 import { FormcoursComponent } from './formcours/formcours.component';
+import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
   {
@@ -34,10 +35,9 @@ const routes: Routes = [
     ]
   },
   
-  {
-    path: '',
-    component: LoginComponent
-  },
+  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
 ];
 
 @NgModule({

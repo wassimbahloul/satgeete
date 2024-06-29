@@ -3,7 +3,11 @@
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-lg-6">
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="nom">Nom:</label>
+          <input type="text" id="nom" formControlName="nom" class="form-control">
+        </div>
         <div class="form-group">
           <label for="email">Email:</label>
           <input type="email" id="email" formControlName="email" class="form-control">
@@ -12,11 +16,7 @@
           <label for="password">Password:</label>
           <input type="password" id="password" formControlName="password" class="form-control">
         </div>
-        <div class="form-group d-flex justify-content-between align-items-center">
-          <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Login</button>
-          <button type="button" class="btn btn-primary" [routerLink]="['/register']">Register</button>
-        </div>
-
+        <button type="submit" class="btn btn-primary" [disabled]="!registerForm.valid">Register</button>
         <div *ngIf="errorMessage" class="alert alert-danger mt-2">{{ errorMessage }}</div>
       </form>
     </div>

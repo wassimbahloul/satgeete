@@ -4,8 +4,10 @@ const cors = require('cors');
 const multer = require('multer');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const path = require('path');
+
 const cloudinary = require(path.resolve(__dirname, './config/cloudinary'));
 const Formation = require('./Models/Formation');
+const User = require('./Models/User'); 
 const Course = require('./Models/Course'); // Importer le modèle Course
 
 mongoose.connect("mongodb://127.0.0.1:27017/stage");
@@ -210,10 +212,46 @@ app.get("/formation/:formationId/courses", (req, res) => {
     })
     .catch(err => res.status(400).json({ message: "Error fetching courses", error: err }));
 });
+// User registration route
+app.post('/register', async (req, res) => {
+  try {
+    const { nom, email, password } = req.body;
 
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
 
+    const newUser = new User({
+      nom,
+      email,
+      password // Store password as plaintext (not recommended)
+    });
 
+    await newUser.save();
+    res.status(201).send({ message: 'User registered successfully!' });
+  } catch (error) {
+    console.error('Error during registration:', error);
+    res.status(500).send({ message: 'Error during registration' });
+  }
+});
+app.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email, password });
 
+    // Compare plaintext passwords
+    if (user) {
+      res.status(200).json({ message: 'Connexion réussie'});
+    } else {
+        // Sinon, renvoyer une réponse indiquant des identifiants incorrects
+        res.status(401).json({ message: 'Identifiants incorrects' });
+    }
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(500).send({ message: 'Error during login' });
+  }
+});
 
 
 

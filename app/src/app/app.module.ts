@@ -12,6 +12,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './login/login.component';
 import { FormcoursComponent } from './formcours/formcours.component';
+import { RegisterComponent } from './register/register.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +22,8 @@ import { FormcoursComponent } from './formcours/formcours.component';
     HeaderComponent,
     FooterComponent,
     LoginComponent,
-    FormcoursComponent
+    FormcoursComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
