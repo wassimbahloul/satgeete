@@ -1,0 +1,28 @@
+<app-header></app-header>
+<br><br>
+<div class="container">
+  <h2>Liste des Administrateurs</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Login</th>
+        <th>Password</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let admin of admins">
+        <td>{{ admin.login }}</td>
+        <td>{{ admin.password }}</td>
+        <td>
+          <a class="btn btn-outline-dark" [routerLink]="'/admin/' + admin._id + '/edit'">
+             Edit
+          </a>
+          <button class="btn btn-danger" (click)="onDelete(admin._id)">Supprimer</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<app-footer></app-footer>

@@ -9,7 +9,7 @@ const cloudinary = require(path.resolve(__dirname, './config/cloudinary'));
 const Formation = require('./Models/Formation');
 const User = require('./Models/User'); 
 const Course = require('./Models/Course'); // Importer le modèle Course
-
+const Admin = require('./Models/Admin'); 
 mongoose.connect("mongodb://127.0.0.1:27017/stage");
 
 const app = express();
@@ -254,7 +254,67 @@ app.post('/login', async (req, res) => {
 });
 
 
+//admin
+// Créer un nouvel administrateur
+app.post("/createadmin", async (req, res) => {
+  try {
+    const { login, password } = req.body;
+    const newAdmin = new Admin({ login, password });
+    await newAdmin.save();
+    res.status(201).json({ message: 'Admin created successfully', admin: newAdmin });
+  } catch (error) {
+    res.status(500).json({ message: 'Could not create admin', error: error.message });
+  }
+});
 
+// Obtenir tous les administrateurs
+app.get("/admins", async (req, res) => {
+  try {
+    const admins = await Admin.find();
+    res.status(200).json(admins);
+  } catch (error) {
+    res.status(500).json({ message: 'Could not fetch admins', error: error.message });
+  }
+});
+
+// Obtenir un administrateur par son ID
+app.get("/admins/:id", async (req, res) => {
+  try {
+    const admin = await Admin.findById(req.params.id);
+    if (!admin) {
+      return res.status(404).json({ message: 'Admin not found' });
+    }
+    res.status(200).json(admin);
+  } catch (error) {
+    res.status(500).json({ message: 'Could not fetch admin', error: error.message });
+  }
+});
+
+// Mettre à jour un administrateur
+app.put("/admins/:id", async (req, res) => {
+  try {
+    const updatedAdmin = await Admin.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!updatedAdmin) {
+      return res.status(404).json({ message: 'Admin not found' });
+    }
+    res.status(200).json({ message: 'Admin updated successfully', admin: updatedAdmin });
+  } catch (error) {
+    res.status(500).json({ message: 'Could not update admin', error: error.message });
+  }
+});
+
+// Supprimer un administrateur
+app.delete("/admins/:id", async (req, res) => {
+  try {
+    const deletedAdmin = await Admin.findByIdAndDelete(req.params.id);
+    if (!deletedAdmin) {
+      return res.status(404).json({ message: 'Admin not found' });
+    }
+    res.status(200).json({ message: 'Admin deleted successfully', admin: deletedAdmin });
+  } catch (error) {
+    res.status(500).json({ message: 'Could not delete admin', error: error.message });
+  }
+});
 
 
 

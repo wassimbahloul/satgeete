@@ -173,6 +173,9 @@
                 <a class="btn btn-success" routerLink="/formation/ajout">
                   <i class="fas fa-plus-circle"></i> Create New Formation
                 </a>
+                <a class="btn btn-outline-dark" [routerLink]="['/admin']">
+                  <i class="fas fa-edit"></i> View Admins
+                </a>
             </div>
             </div>
             <br>
@@ -203,6 +206,7 @@
                   <a class="btn btn-outline-dark" [routerLink]="['/formation', formation._id, 'ajoutcours']">
                     <i class="fas fa-edit"></i> add course
                   </a>
+                  
                 </div>
               </div>
        

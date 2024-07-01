@@ -1,0 +1,28 @@
+<app-header></app-header>
+<br><br>
+<div class="container">
+    <h2>{{ idcourant ? 'Modifier' : 'Ajouter' }} un Administrateur</h2>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="login">Login:</label>
+        <input type="text" id="login" formControlName="login" class="form-control" required>
+        <div *ngIf="form.get('login')?.invalid && (form.get('login')?.dirty || form.get('login')?.touched)">
+          <div *ngIf="form.get('login')?.errors?.['required']">
+            Login est requis.
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" formControlName="password" class="form-control" required>
+        <div *ngIf="form.get('password')?.invalid && (form.get('password')?.dirty || form.get('password')?.touched)">
+          <div *ngIf="form.get('password')?.errors?.['required']">
+            Password est requis.
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">{{ idcourant ? 'Mettre à jour' : 'Ajouter' }}</button>
+      
+    </form>
+  </div>
+<app-footer></app-footer>
