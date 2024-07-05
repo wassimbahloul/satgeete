@@ -9,7 +9,7 @@ const Formation = require('./Models/Formation');
 const User = require('./Models/User'); 
 const Course = require('./Models/Course'); // Importer le modèle Course
 const Admin = require('./Models/Admin'); // Importer le modèle Course
-
+const Log = require('./Models/Log');
 mongoose.connect("mongodb://127.0.0.1:27017/stage");
 
 const app = express();
@@ -319,8 +319,37 @@ app.delete("/admins/:id", async (req, res) => {
     res.status(500).json({ message: 'Could not delete admin', error: error.message });
   }
 });
+//logs
+// Exemple de route GET pour récupérer tous les logs
+app.get("/api/logs", (req, res) => {
+  Log.find({})
+    .then(logs => res.json(logs))
+    .catch(err => res.status(400).json({ message: "Error fetching logs", error: err }));
+});
 
 
+// Route to create a new log entry
+app.post("/api/createlogs", (req, res) => {
+  const { email, action,title } = req.body;
+
+  if (!email || !action) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
+
+  const newLog = new Log({
+    email,
+    action,
+    title,
+    timestamp: new Date()
+  });
+
+  newLog.save()
+    .then(log => res.status(201).json(log)) // Return the saved log entry
+    .catch(err => {
+      console.error('Error saving log:', err);
+      res.status(500).json({ message: "Error saving log", error: err });
+    });
+});
 
 
 
