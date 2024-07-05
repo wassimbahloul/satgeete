@@ -33,7 +33,7 @@
                 <button type="button" class="btn btn-primary px-4" (click)="search()">Search</button>
               </form>
               <br><br>
-              <a class="btn btn-success" routerLink="/formation/ajout">
+              <a class="btn btn-success" routerLink="/formation/ajout1">
                 <i class="fas fa-plus-circle"></i> Create New Formation
               </a><br>
               <div *ngFor="let formation of filteredFormations" class="formation-card">
@@ -55,7 +55,7 @@
                   <a class="btn btn-primary" [href]="'/formation/' + formation._id + '/viewadmin'">
                     <i class="fas fa-eye"></i> View
                   </a>
-                  <a class="btn btn-outline-dark" [href]="'/formation/' + formation._id + '/edit'">
+                  <a class="btn btn-outline-dark" [href]="'/formation/' + formation._id + '/edit1'">
                     <i class="fas fa-edit"></i> Edit
                   </a>
                   <a class="btn btn-outline-dark" [routerLink]="['/formation', formation._id, 'ajoutcours']">

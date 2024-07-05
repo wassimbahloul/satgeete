@@ -30,6 +30,7 @@ import { FooterAdminComponent } from './footer-admin/footer-admin.component';
 import { Layout1Component } from './layout1/layout1.component';
 import { Home2Component } from './home2/home2.component';
 import { Ajoutformation1Component } from './ajoutformation1/ajoutformation1.component';
+import { LogsComponent } from './logs/logs.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { Ajoutformation1Component } from './ajoutformation1/ajoutformation1.comp
     Layout1Component,
     Home2Component,
     Ajoutformation1Component,
+    LogsComponent,
 
   ],
   imports: [

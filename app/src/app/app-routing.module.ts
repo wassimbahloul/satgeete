@@ -17,6 +17,7 @@ import { AuthGuardClientService } from '../services/auth-guard-client.service';
 import { Layout1Component } from './layout1/layout1.component';
 import { Home2Component } from './home2/home2.component';
 import { Ajoutformation1Component } from './ajoutformation1/ajoutformation1.component';
+import { LogsComponent } from './logs/logs.component';
 
 
 const routes: Routes = [
@@ -40,6 +41,10 @@ const routes: Routes = [
       {canActivate: [AuthGuardService],
         path: ':id/edit',
         component: AjoutformationComponent // Route pour l'édition d'une formation spécifique
+      },
+      {canActivate: [AuthGuardService],
+        path: ':id/edit1',
+        component: Ajoutformation1Component // Route pour l'édition d'une formation spécifique
       },
       {canActivate: [AuthGuardClientService],
         path: ':id/view',
@@ -69,6 +74,10 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent
+  },
+  {
+    path: 'logs',
+    component: LogsComponent
   },
  { 
   path: 'admin',
