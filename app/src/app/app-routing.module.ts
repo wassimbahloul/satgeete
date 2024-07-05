@@ -14,6 +14,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { CourseAdminComponent } from './course-admin/course-admin.component';
 import { AuthGuardService } from '../services/auth-guard.service';
 import { AuthGuardClientService } from '../services/auth-guard-client.service';
+import { Layout1Component } from './layout1/layout1.component';
+import { Home2Component } from './home2/home2.component';
+import { Ajoutformation1Component } from './ajoutformation1/ajoutformation1.component';
 
 
 const routes: Routes = [
@@ -29,6 +32,10 @@ const routes: Routes = [
       {canActivate: [AuthGuardService],
         path: 'ajout',
         component: AjoutformationComponent
+      },
+      {canActivate: [AuthGuardService],
+        path: 'ajout1',
+        component: Ajoutformation1Component
       },
       {canActivate: [AuthGuardService],
         path: ':id/edit',
@@ -86,11 +93,19 @@ const routes: Routes = [
     path: 'layout',
     component: LayoutAdminComponent
   },
+  {
+    path: 'layout1',
+    component: Layout1Component
+  },
   
   
   {
     path: 'home1',
     component: HomeadminComponent
+  },
+  {
+    path: 'home2',
+    component: Home2Component
   },
  
 

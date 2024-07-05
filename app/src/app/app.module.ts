@@ -27,6 +27,9 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { environment } from './environement';
 import { FooterAdminComponent } from './footer-admin/footer-admin.component';
+import { Layout1Component } from './layout1/layout1.component';
+import { Home2Component } from './home2/home2.component';
+import { Ajoutformation1Component } from './ajoutformation1/ajoutformation1.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +50,9 @@ import { FooterAdminComponent } from './footer-admin/footer-admin.component';
     HeaderAdminComponent,
     CourseAdminComponent,
     FooterAdminComponent,
+    Layout1Component,
+    Home2Component,
+    Ajoutformation1Component,
 
   ],
   imports: [
