@@ -33,6 +33,7 @@ const routes: Routes = [
       },
       
       {
+        canActivate: [AuthGuardService],
         path: 'ajout',
         component: AjoutformationComponent
       },
@@ -53,6 +54,7 @@ const routes: Routes = [
         component: TutorialComponent
       },
       {
+        canActivate: [AuthGuardService],
         path: ':id/viewadmin',
         component: CourseAdminComponent
       },
@@ -61,6 +63,7 @@ const routes: Routes = [
         component: Courseadmin1Component
       },
       {
+        canActivate: [AuthGuardService],
         path: ':id/ajoutcours',
         component:FormcoursComponent
       },
@@ -85,13 +88,10 @@ const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent
   },
-  {
-    path: 'logs',
-    component: LogsComponent
-  },
+  
  { 
   path: 'admin',
-  
+    canActivate: [AuthGuardService],
     children: [
       {
         path: '',
@@ -105,24 +105,32 @@ const routes: Routes = [
         path: ':id/edit', // Correction: changer 'admin/:id/edit' à ':id/edit'
         component: AjoutAdminComponent 
       },
+      {
+        path: 'logs',
+        component: LogsComponent
+      },
     ]
   },
 
   {
+    canActivate: [AuthGuardService],
     path: 'layout',
     component: LayoutAdminComponent
   },
   {
+    canActivate: [AuthGuardService],
     path: 'layout1',
     component: Layout1Component
   },
   
   
   {
+    canActivate: [AuthGuardService],
     path: 'home1',
     component: HomeadminComponent
   },
   {
+    canActivate: [AuthGuardService],
     path: 'home2',
     component: Home2Component
   },
