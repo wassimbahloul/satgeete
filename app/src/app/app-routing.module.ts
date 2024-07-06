@@ -18,6 +18,8 @@ import { Layout1Component } from './layout1/layout1.component';
 import { Home2Component } from './home2/home2.component';
 import { Ajoutformation1Component } from './ajoutformation1/ajoutformation1.component';
 import { LogsComponent } from './logs/logs.component';
+import { Formcours1Component } from './formcours1/formcours1.component';
+import { Courseadmin1Component } from './courseadmin1/courseadmin1.component';
 
 
 const routes: Routes = [
@@ -30,7 +32,7 @@ const routes: Routes = [
         component: HomeComponent
       },
       
-      {canActivate: [AuthGuardService],
+      {
         path: 'ajout',
         component: AjoutformationComponent
       },
@@ -38,7 +40,7 @@ const routes: Routes = [
         path: 'ajout1',
         component: Ajoutformation1Component
       },
-      {canActivate: [AuthGuardService],
+      {
         path: ':id/edit',
         component: AjoutformationComponent // Route pour l'édition d'une formation spécifique
       },
@@ -50,13 +52,21 @@ const routes: Routes = [
         path: ':id/view',
         component: TutorialComponent
       },
-      {canActivate: [AuthGuardService],
+      {
         path: ':id/viewadmin',
         component: CourseAdminComponent
       },
       {canActivate: [AuthGuardService],
+        path: ':id/viewadmin1',
+        component: Courseadmin1Component
+      },
+      {
         path: ':id/ajoutcours',
         component:FormcoursComponent
+      },
+      {canActivate: [AuthGuardService],
+        path: ':id/ajoutcours1',
+        component:Formcours1Component
       },
     
     ]
@@ -81,7 +91,7 @@ const routes: Routes = [
   },
  { 
   path: 'admin',
-  canActivate: [AuthGuardService],
+  
     children: [
       {
         path: '',

@@ -8,6 +8,8 @@ import { LogService } from '../../services/logs.service';
 })
 export class LogsComponent implements OnInit {
   logs: any[] = [];
+  filteredLogs: any[] = [];
+  searchTerm: string = '';
 
   constructor(private logService: LogService) { }
 
@@ -19,11 +21,22 @@ export class LogsComponent implements OnInit {
     this.logService.getLogs().subscribe(
       (data) => {
         this.logs = data;
+        this.filteredLogs = data;
         console.log('Logs:', this.logs);
       },
       (error) => {
         console.error('Error fetching logs:', error);
       }
     );
+  }
+
+  search(): void {
+    if (this.searchTerm) {
+      this.filteredLogs = this.logs.filter(log =>
+        log.title.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    } else {
+      this.filteredLogs = this.logs;
+    }
   }
 }

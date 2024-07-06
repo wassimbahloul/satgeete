@@ -31,6 +31,10 @@ import { Layout1Component } from './layout1/layout1.component';
 import { Home2Component } from './home2/home2.component';
 import { Ajoutformation1Component } from './ajoutformation1/ajoutformation1.component';
 import { LogsComponent } from './logs/logs.component';
+import { Formcours1Component } from './formcours1/formcours1.component';
+import { Courseadmin1Component } from './courseadmin1/courseadmin1.component';
+
+
 
 @NgModule({
   declarations: [
@@ -55,6 +59,9 @@ import { LogsComponent } from './logs/logs.component';
     Home2Component,
     Ajoutformation1Component,
     LogsComponent,
+    Formcours1Component,
+    Courseadmin1Component,
+
 
   ],
   imports: [
